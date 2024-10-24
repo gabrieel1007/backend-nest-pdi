@@ -15,7 +15,7 @@ import { UserModule } from './user/user.module';
       password: 'test',
       database: 'postgres',
       entities: [User],
-      synchronize: true,
+      //synchronize: true,
  
     }),
     UserModule,

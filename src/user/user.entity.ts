@@ -1,16 +1,16 @@
 import { Entity, Column, PrimaryGeneratedColumn } from "typeorm";
 
-@Entity()
-export class User {
+@Entity('users')
+export class User{
     @PrimaryGeneratedColumn()
     id: number;
     
-    @Column()
+    @Column({ type: 'varchar',  nullable: false })
     name: string;
     
-    @Column()
+    @Column({ default: false, nullable: false })
     is_admin: boolean;
     
-    @Column()
-    poinst: number;
+    @Column({ nullable: false })
+    points: number;
 }
