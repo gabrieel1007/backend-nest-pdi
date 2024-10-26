@@ -6,6 +6,9 @@ import { User } from './entityes/user/user.entity';
 import { UserModule } from './entityes/user/user.module';
 import { Point } from './entityes/point/point.entity';
 import { PointModule } from './entityes/point/point.module';
+import { AuthModule } from './auth/auth.module';
+import { config } from 'process';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
@@ -20,6 +23,8 @@ import { PointModule } from './entityes/point/point.module';
     }),
     UserModule,
     PointModule,
+    AuthModule,
+    ConfigModule.forRoot({ isGlobal: true }),
   ],
   controllers: [AppController],
   providers: [AppService],
