@@ -11,7 +11,15 @@ export class PointService{
     ) {}
 
     async findAll(): Promise<Point[]> {
-        return await this.pointRepository.find();
+        const  response =  await this.pointRepository.find({
+            select: ["points", "modified_at", "type_operation" ],
+            where: {
+                user_id: 22,
+                expired_points: false
+            }
+        });
+        console.log('response', response);
+        return response;
     }
 
 }

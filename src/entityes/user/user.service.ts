@@ -10,8 +10,12 @@ export class UserService {
         private userRepository: Repository<User>
     ) {}
 
-    async findAll(): Promise<User[]> {
-        const users =  await this.userRepository.find();
+    async getAllUsersAndPoints(): Promise<User[]> {
+        const users =  await this.userRepository
+            .query(`SELECT 
+                    user_name as name,
+                    total_points
+                FROM user_points`);
         console.log(users);
         return users;
     }   
