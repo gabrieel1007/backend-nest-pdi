@@ -14,7 +14,8 @@ export class UserService {
         const users =  await this.userRepository
             .query(`SELECT 
                     user_name as name,
-                    total_points
+                    total_points,
+                    user_id
                 FROM user_points`);
         console.log(users);
         return users;
