@@ -3,6 +3,8 @@ import { Repository } from "typeorm";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Point } from "./point.entity";
 
+
+
 @Injectable()
 export class PointService{
     constructor(
@@ -22,4 +24,15 @@ export class PointService{
         return response;
     }
 
+    async resetAll(user: any): Promise<any> {
+        const response = await this.pointRepository.update({
+            expired_points: false
+        }, {
+            expired_points: true,
+            modified_by: user.user_id,
+            modified_at: new Date()
+        });
+        console.log('response', response);
+        return response;
+    }
 }
