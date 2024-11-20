@@ -21,24 +21,31 @@ export class PointController{
     }
 
     @Post('reset')
-    handleRequest(@Headers('Authorization') token: string): any {
+    async resetPoints(@Headers('Authorization') token: string): Promise<any> {
         if(token) {
-            const user =  this.getUsetByToken(token);
-            return this.pointService.resetAll(user);
+            const user =  await this.getUsetByToken(token);
+            const isAdmin = await this.verifyIfUserIsAdmin(user.sub);
+            if(isAdmin) {
+                return this.pointService.resetAll(user);
+            }
+            return {response: 'error'};
         }
         return {response: 'error'};
     }
 
     @Post('edit')
-    editPoints(): any {
-        console.log('edit')
-        return {response: 'edit'};
-    }
-
-
-    private getUsetByToken(token: string): User {
+    async editPoints(@Headers('Authorization') token: string, @Body() body: any ): Promise<any> {
         if(token) {
-            console.log(this.decodeToken(token));
+            const user = await this.getUsetByToken(token);
+            const isAdmin = await this.verifyIfUserIsAdmin(user.sub);
+            if(isAdmin) {
+                return this.pointService.editPoints(user, body);
+            }
+        }
+    }
+    
+    private getUsetByToken(token: string): any {
+        if(token) {
             return this.decodeToken(token);
         }
     }
@@ -46,11 +53,14 @@ export class PointController{
     private decodeToken(token: string): any {
         const JWT_SECRET = this.configService.get<string>('JWT_SECRET');
         const actualToken = token.replace('Bearer ', '');
-        console.log('token', token);
         try {
             return verify(actualToken, JWT_SECRET);
         } catch (error) {
             return null;
         }
+    }
+
+   private verifyIfUserIsAdmin(userid: number): Promise<boolean> {
+       return this.pointService.verifyIfUserIsAdmin(userid);
     }
 }

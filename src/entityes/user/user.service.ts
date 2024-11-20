@@ -23,6 +23,10 @@ export class UserService {
     
     async findByUserName(userName: string): Promise<User> {
         return await this.userRepository.findOne({ where: { 'name': userName } });
+    }
 
+    async verifyIfUserIsAdmin(userid: number): Promise<boolean> {
+        const user = await this.userRepository.findOne({ where: { 'user_id': userid } });
+        return user.is_admin;
     }
 }
