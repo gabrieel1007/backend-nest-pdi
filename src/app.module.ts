@@ -20,6 +20,8 @@ import { ConfigModule } from '@nestjs/config';
       password: 'test',
       database: 'postgres',
       entities: [User, Point], 
+      migrations: [`${__dirname}/migrations/{.ts,*.js}`],
+      migrationsRun: true,
     }),
     UserModule,
     PointModule,

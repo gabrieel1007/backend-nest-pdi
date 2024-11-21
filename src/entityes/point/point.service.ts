@@ -27,6 +27,7 @@ export class PointService{
     }
 
     async resetAll(user: any): Promise<any> {
+        console.log('user', user);
         const response = await this.pointRepository.update({
             expired_points: false
         }, {
@@ -34,7 +35,6 @@ export class PointService{
             modified_by: user.user_id,
             modified_at: new Date()
         });
-        console.log('response', response);
         return response;
     }
 
